@@ -10,15 +10,9 @@ const onPlay = function({seconds}) {
 
 const currentTime = localStorage.getItem("video-current-time");
 
+if (currentTime) {
+player.setCurrentTime(currentTime);
+}
+
 
 player.on('timeupdate', onPlay);
-
-player.setCurrentTime(parseInt(currentTime)).then(function (seconds) {}).catch(function (error) {
-    switch (error.name) {
-        case 'RangeError':
-            break;
-        
-        default:
-            break;
-    }
-});
