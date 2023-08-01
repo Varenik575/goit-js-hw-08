@@ -10,8 +10,6 @@ const imageCardsMarkup = createImageCards(galleryItems);
 const imageCardContainer = document.querySelector('.gallery');
 insertMarkup(imageCardsMarkup, imageCardContainer);
 
-imageCardContainer.addEventListener('click', onImageClick);
-
 const lightbox = new SimpleLightbox('.gallery__link', {
     captionsData: `alt`,
     captionDelay: 250,
@@ -38,10 +36,3 @@ function insertMarkup(markup, location) {
   
 }
 
-function onImageClick(event) {
-
-  event.preventDefault();
-  if (!event.target.classList.contains('gallery__image')) {
-    return;
-    };
-}

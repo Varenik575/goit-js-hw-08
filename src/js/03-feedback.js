@@ -1,30 +1,36 @@
+/*goit-js-hw-08/03-feedback*/
 import throttle from "lodash.throttle";
 
 const form = document.querySelector('.feedback-form');
-const submitBtn = document.querySelector('button');
-const email = form.querySelector('input');
-const message = form.querySelector('textarea');
-const values = JSON.parse(localStorage.getItem('feedback-form-state'));
 
-email.addEventListener('input', throttle(onFieldInput, 500));
-message.addEventListener('input', throttle(onFieldInput, 500));
-form.addEventListener('submit', clearLocalStorage);
+form.addEventListener('input', throttle(onFieldInput, 500));
+form.addEventListener('submit', clearData);
 
-FillFields();
+const STORAGE_KEY = "feedback-form-state";
+let formState = {};
 
-function onFieldInput(event) {
-    event.preventDefault();
-    localStorage.setItem('feedback-form-state', JSON.stringify({ email: email.value, message: message.value }));
+function onFieldInput(e) {
+    formState[e.target.name] = e.target.value.trim();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(formState));
 }
 
-function FillFields() {
-    if (values) {
-        email.value = values.email;
-        message.value = values.message;
-    };
+function clearData(e) {
+    e.preventDefault();
+    console.log(formState);
+    formState = {};
+    e.target.reset();
+    localStorage.removeItem(STORAGE_KEY);
 }
 
-function clearLocalStorage() {
-    console.log(values);
-    localStorage.removeItem('feedback-form-state');
-}
+const onLoad = () => {
+    try {
+        const data = localStorage.getItem(STORAGE_KEY);
+        if (!data) return;
+        formState = JSON.parse(data);
+        Object.entries(formState).forEach(({ key, val }) => { form.elements[key].value = val; })
+    } catch (error) {
+        console.log(error.message);
+    }
+} 
+
+window.addEventListener('load', onLoad);
