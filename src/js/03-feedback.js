@@ -27,7 +27,7 @@ const onLoad = () => {
         const data = localStorage.getItem(STORAGE_KEY);
         if (!data) return;
         formState = JSON.parse(data);
-        Object.entries(formState).forEach(({ key, val }) => { form.elements[key].value = val; })
+        Object.entries(formState).forEach(([key, val] ) => { form.elements[key].value = val; })
     } catch (error) {
         console.log(error.message);
     }
